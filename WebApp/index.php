@@ -14,7 +14,7 @@ Hello <?php echo $_SESSION['username']?>!
 
 <p><a href="upload.php" class="button">Upload Video</a> &nbsp;<a href="upload.php" class="button">Upload Video</a> </p>
 
-<p><a href="export.php" class="button">Export Database</a> &nbsp;<a href="export.php" class="button">Export Database</a> </p>
+<p><a href="query.php" class="button">Export Database</a> &nbsp;<a href="query.php" class="button">Export Database</a> </p>
 
 <p><a href="browse.php" class="button">Annotate Video</a> &nbsp;<a href="browse.php" class="button">Annotate Video</a> </p>
 

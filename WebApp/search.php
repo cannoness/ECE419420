@@ -30,9 +30,9 @@
   
   $sql="SELECT video_id FROM annotations WHERE annotation_text LIKE '%" . $name .  "%'";
   //-run  the query against the mysql query function
-  $result=mysql_query($sql);
+  $result=mysqli_query($link,$sql);
   //-create  while loop and loop through result set
-  while($row=mysql_fetch_array($result)){
+  while($row=mysqli_fetch_array($result)){
           $ID  =$row['video_id'];
   //-display the result of the array
   echo "<ul>\n\n\n";

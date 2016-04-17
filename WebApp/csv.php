@@ -1,27 +1,15 @@
 <?php 
-
-	$servername = "localhost";
-	$username = "root";
-	$password = "root";
-	$dbname = "Example";
-
-	// Create connection
-	$conn = new mysqli($servername, $username, $password, $dbname);
-	// Check connection
-	if ($conn->connect_error) {
-    	die("Connection failed: " . $conn->connect_error);
-	} 
-
-	$sql = "SELECT * FROM example2";  
-	$result = $conn->query($sql);
+ require('/common/DBConnection/connection.php');
+	$sql = "SELECT * FROM annotations WHERE annotation_text LIKE '%".$_POST['sql']."%'";
+	$result = mysqli_query($link,$sql);
  
 	if (!$result) die('Couldn\'t fetch records');  
-	$num_fields = $result->num_fields;  
+	$finfo = $result->fetch_fields();
 	$headers = array(); 
 
-	for ($i = 0; $i < $num_fields; $i++)   
+	foreach ($finfo as $val)   
 	{	             
-		$headers[] = $result->field_name(i); 
+		$headers[] = $val->name; 
 	}   
 	$fp = fopen('php://output', 'w'); 
 	if ($fp && $result)   

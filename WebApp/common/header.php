@@ -10,20 +10,15 @@
     <link rel="shortcut icon" type="image/x-icon" href="https://cdn.css-tricks.com/favicon.ico" />
 
     <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js?ver=1.3.2'></script>
-</head>
-
-<body>
-
-    <div id="page-wrap">
 
 
         <div id="header">
 
 
-            <h1><a href="/">Video Annotation WebApp </a></h1>
+            <h1><a href="../WebApp/index.php">Video Annotation WebApp </a></h1>
 
 
-            <div id="control">
+<div id="control">
 <?php
  require('/common/DBConnection/connection.php');
  session_start();
@@ -49,4 +44,5 @@ else{
             </div>
 
         </div>
-		
+	</head>	
+<body>

@@ -12,20 +12,20 @@
   $number_of_categories_in_row = 4;      
   $total_vids =0;
   $counter=0;
-  $result = mysql_query("      
+  $result = mysqli_query($link,"      
     SELECT      
       c.src_video_name,      
       c.src_video_location,  
 	  c.video_data_id
     FROM      
       `videos` as c ");      
-  while ($row = mysql_fetch_array($result)) {      
+  while ($row = mysqli_fetch_array($result)) {      
     $result_array[] =      
       '<a href="annotate.php?pid=' . $row[2] . '">' .      
       $row[0] . '</a>';
 	$total_vids++;
   }      
-  mysql_free_result($result);   
+  mysqli_free_result($result);   
   $result_final = '<tr>&nbsp;';      
   foreach ($result_array as $category_link) {      
     if ($counter == $number_of_categories_in_row) {      

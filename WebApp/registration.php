@@ -7,14 +7,14 @@
  $email = $_POST['email'];
  $password = $_POST['password'];
  $username = stripslashes($username);
- $username = mysql_real_escape_string($username);
+ $username = mysqli_real_escape_string($link,$username);
  $email = stripslashes($email);
- $email = mysql_real_escape_string($email);
+ $email = mysqli_real_escape_string($link, $email);
  $password = stripslashes($password);
- $password = mysql_real_escape_string($password);
+ $password = mysqli_real_escape_string($link,$password);
  #$trn_date = date("Y-m-d H:i:s");
  $query = "INSERT into `users` (user_name, user_password_hash, user_email) VALUES ('$username', '".md5($password)."', '$email')";
- $result = mysql_query($query);
+ $result = mysqli_query($link,$query);
  if($result){
  echo "<div class='form'><h3>You are registered successfully.</h3><br/>Click here to <a href='login.php'>Login</a></div>";
  }

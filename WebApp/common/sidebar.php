@@ -1,6 +1,6 @@
 <div id="ribbon">
 
-    Reminders
+    <h1>Reminders</h1>
     
     <ul>
          <li><h1>This is a test area</h1></li>

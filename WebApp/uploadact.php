@@ -15,7 +15,7 @@ if(isset($_POST['upload'])){
 				$username = $_SESSION['username'];
 				
 	$query =  "INSERT INTO videos (src_video_name, ul_user_name, src_video_location) VALUES ('$name', '$username', '$uploadfile')";
-	$result = mysql_query($query);
+	$result = mysqli_query($link,$query);
                 echo 'File uploaded successfully';
 		} else{echo 'error uploading' + $_FILES["userfile"]["error"];}    }      
 		

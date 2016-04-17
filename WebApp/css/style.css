@@ -1,25 +1,127 @@
-body {font-family:Arial, Sans-Serif;}
-.clearfix:before, .clearfix:after { content: ""; display: table; }
-.clearfix:after { clear: both; }
-a {color:#78b941; text-decoration:none;}
-a:hover {text-decoration:underline;}
-.form{width: 300px; margin: 0 auto;}
-input[type='text'], input[type='email'], input[type='password'] {width: 200px; border-radius: 2px;border: 1px solid #CCC; padding: 10px; color: #333; font-size: 14px; margin-top: 10px;}
-input[type='submit']{padding: 10px 25px 8px; color: #fff; background-color: #78b941; text-shadow: rgba(0,0,0,0.24) 0 1px 0; font-size: 16px; box-shadow: rgba(255,255,255,0.24) 0 2px 0 0 inset,#fff 0 1px 0 0; border: 1px solid #6faf38; border-radius: 2px; margin-top: 10px; cursor:pointer;}
-input[type='submit']:hover {background-color: #80c248;}
+﻿/*
+================================================================================
+    Main style sheet for Video Annotation platform.
+
+    Class: ECE 435, 419, 420
+    
+    Collaboration between Senior Design and Software Engineering
+================================================================================
+*/
+
+html {
+    background: rgb(255, 255, 255);
+    color: rgb(35, 35, 35);
+    overflow: auto;
+}
+
+body {
+    font-size: 1em;
+    font-weight: normal;
+    word-spacing: normal;
+    letter-spacing: normal;
+    text-transform: normal;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size-adjust: 0.58;
+    line-height: 1.4em;
+    text-align: center;
+    overflow:hidden;    width: 75%;
+    height: 100%;
+    padding:0;
+    margin:0;
+}
+head{
+	    font-size: 1em;
+    font-weight: normal;
+    word-spacing: normal;
+    letter-spacing: normal;
+    text-transform: normal;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size-adjust: 0.58;
+    line-height: 1.4em;
+    text-align: center;
+    overflow:hidden;    width: 75%;
+    height: 100%;
+    padding:0;
+    margin:0;
+}
+
+video {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.main {
+    width: 65%;
+    height: 100%;
+    padding: 1.5em;
+    margin-left: 0px;
+    margin-right: 1.5em;
+    position: fixed;
+    left: 25%;
+    top: 0px;
+    text-align: center;
+    /*border: 1px solid blue;*/
+}
+
+.video-div {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 0px;
+    margin: 0px;
+    /*border: 1px solid green;*/
+
+}
+
+.canvases {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 90%;
+}
+
+.input-area {
+    position: relative;
+    width: inherit;
+    text-align: left;
+    position: relative;
+    padding: inherit;
+    margin: inherit;
+}
+
+.annotation-list {
+	position: absolute;
+	right:-51%;
+	top: 25%;
+    width: inherit;
+    max-height: 30em;
+    text-align: left;
+    padding: inherit;
+    margin: inherit;
+    overflow-y: scroll;
+}
+
+
 
 /*
     HEADER
 */
-#header { height: 68px; position: relative; }
-#header h1 { position: absolute; top: 0; left: 0; z-index: 2; text-indent: -9999px; overflow: hidden; }
-#header h1 a { display: block; text-indent: -9999px; width: 200px; height: 38px; border: none; background: url(/images/logo.png) no-repeat; }
-#control { width: 500px; float: right; padding: 10px 237px 0 0; text-align: right; }
+#header { height: 65px; position: relative; }
+#header h1 { position: absolute; top: 0; left: 0; z-index: 2;  overflow: hidden; }
+#header h1 a { display: block; width: 100%; height: 38px; border: none; background: url(/images/logo.png) no-repeat; }
+#control { width: 500px; float: right; padding: 10px 0px 0 0; text-align: right; }
 
 /*
     SIDEBAR
 */
-#ribbon { position: absolute; right: 0; width: 125px; padding: 60px 30px 0 47px; height: 756px; top: -6px; background: url(/images/ribbon-bg.png) no-repeat; }
+#ribbon { position: absolute; right: 4px; width: 24%; top:10%;  }
 
 #ribbon ul { list-style: none; }
 #ribbon ul li { background: rgba(0,0,0,0.8); color: white; padding: 5px; margin: 0 0 5px 0; font-size: 12px; }
@@ -29,26 +131,22 @@ input[type='submit']:hover {background-color: #80c248;}
 
 #footer {
 margin: 0px auto;
-width: 850px;
+width:100%;
+bottom: 0;
 }    
-#footer .social {
-padding: 30px 0;
-width: 425px;
-text-align: center;
-}
 #footer .copyright {
-float: right;
+float: left;
 padding: 30px 0;
-width: 425px;
+width: 100%;
 text-align: center;
 }
 
-/*
+
 /*
     RESET
 */
 * { margin: 0; padding: 0; }
-body { font: 14px/1.1 Helvetica, Sans-Serif; background: url(images/stripe.png) repeat-x; }
+body { font: 14px/1.1 Helvetica, Sans-Serif;  }
 .clear { clear: both; }
 img, a img { border: none; }
 input { outline: none; }

@@ -149,7 +149,7 @@ function startAnnotation(x, y) {
     videoPlayer.pause();
     currentAnnotation =  new Annotation();
     currentAnnotation.start = videoPlayer.currentTime;
-	document.getElementById("start-time") = currentAnnotation.start;
+	document.getElementById("start-time").value = videoPlayer.currentTime;
     currentAnnotation.x = x;
     currentAnnotation.y = y;
     //redraw();

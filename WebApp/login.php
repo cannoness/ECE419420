@@ -5,22 +5,22 @@
  $username = $_POST['username'];
  $password = $_POST['password'];
  $username = stripslashes($username);
- $username = mysql_real_escape_string($username);
+ $username = mysqli_real_escape_string($link,$username);
  $password = stripslashes($password);
- $password = mysql_real_escape_string($password);
+ $password = mysqli_real_escape_string($link,$password);
  //Checking is user existing in the database or not
  $query = "SELECT * FROM `users` WHERE user_name='$username' and user_password_hash='".md5($password)."'";
- $result = mysql_query($query) or die(mysql_error());
- $rows = mysql_num_rows($result);
+ $result = mysqli_query($link,$query) or die(mysql_error());
+ $rows = mysqli_num_rows($result);
  if($rows==1){
  $_SESSION['username'] = $username;
- $user_id = mysql_query("SELECT
+ $user_id = mysqli_query($link,"SELECT
   `user_id`
 FROM
   users
 WHERE
   user_name = '$username'");
-  $useid = mysql_fetch_assoc($user_id);
+  $useid = mysqli_fetch_assoc($link,$user_id);
   $_SESSION['user_id'] = $useid["user_id"];
  header("Location: index.php"); // Redirect user to index.php
  }else{
