@@ -3,7 +3,7 @@
     <h1>Reminders</h1>
     
     <ul>
-         <li><h1>This is a test area</h1></li>
-         <li>Hints etc go here totally cool</li>
+         <li><h2>This is a test area</h2></li>
+         <li>this area will change based on page</li>
     </ul>
 </div>

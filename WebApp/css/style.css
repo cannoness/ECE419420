@@ -12,6 +12,7 @@ html {
     background: rgb(255, 255, 255);
     color: rgb(35, 35, 35);
     overflow: auto;
+    overflow-x:0;
 }
 
 body {
@@ -27,10 +28,10 @@ body {
     overflow:hidden;    width: 75%;
     height: 100%;
     padding:0;
-    margin:0;
+        margin:0;
 }
 head{
-	    font-size: 1em;
+	font-size: 1em;
     font-weight: normal;
     word-spacing: normal;
     letter-spacing: normal;
@@ -113,7 +114,7 @@ ul {
 /*
     HEADER
 */
-#header { height: 65px; position: relative; }
+#header { height: 50px; position: relative; }
 #header h1 { position: absolute; top: 0; left: 0; z-index: 2;  overflow: hidden; }
 #header h1 a { display: block; width: 100%; height: 38px; border: none; background: url(/images/logo.png) no-repeat; }
 #control { width: 500px; float: right; padding: 10px 0px 0 0; text-align: right; }
@@ -121,7 +122,7 @@ ul {
 /*
     SIDEBAR
 */
-#ribbon { position: absolute; right: 4px; width: 24%; top:10%;  }
+#ribbon { position: absolute; right: 4px; width: 24%; top:10%; overflow:hidden; }
 
 #ribbon ul { list-style: none; }
 #ribbon ul li { background: rgba(0,0,0,0.8); color: white; padding: 5px; margin: 0 0 5px 0; font-size: 12px; }
@@ -133,11 +134,13 @@ ul {
 margin: 0px auto;
 width:100%;
 bottom: 0;
+overflow-x:0;
 }    
 #footer .copyright {
 float: left;
 padding: 30px 0;
 width: 100%;
+
 text-align: center;
 }
 
@@ -146,7 +149,7 @@ text-align: center;
     RESET
 */
 * { margin: 0; padding: 0; }
-body { font: 14px/1.1 Helvetica, Sans-Serif;  }
+body { font: 14px/1.1 Helvetica, Sans-Serif; overflow-x:0; }
 .clear { clear: both; }
 img, a img { border: none; }
 input { outline: none; }

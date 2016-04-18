@@ -38,12 +38,6 @@ window.setInterval(redraw, 250); // Call redraw every second.
     Initialize the app.
 */
 function init() {
-    // Setup video links.
-    var videoLinks = document.getElementsByClassName("video-link");
-    for (var i = 0; i < videoLinks.length; i++) {
-        videoLinks[i].onclick = loadVideo(link.getAttribute("url"));
-        // TODO
-    };
 
     videoPlayer = document.getElementById("video-player");
 
@@ -69,14 +63,6 @@ function init() {
     General.
 ================================================================================
 */
-
-/*
-    Load a video.
-*/
-function loadVideo(url) {
-    // TODO
-}
-
 /*
     Called on mouse click.
 */
@@ -175,7 +161,7 @@ function finalizeAnnotation() {
     var contentField = document.getElementById("content-text");
     currentAnnotation.content = contentField.value;
     currentAnnotation.end = videoPlayer.currentTime;
-	currentAnnotation.dbID=-1;
+	currentAnnotation.dbID= -1;
     if (currentAnnotation.content == ""
         || currentAnnotation.end - currentAnnotation.start <= 0) {
         return;
@@ -312,14 +298,14 @@ while (list.firstChild) {
 		item.appendChild(document.createTextNode(contentString));
 		
         if (currentTime >= current.start && currentTime <= current.end) {
-			if(current.dbID ==-1){
+			if(current.dbID == -1){
 				item.style.color = "#FF0000";
+				item.style.fontWeight  = 'bold';
 			}
 			else{
-				item.style.color="#FFF000";
+				item.style.color="#0000FF";
+				item.style.fontWeight  = 'bold';
 			}
-			
-			item.style.fontWeight  = 'bold';
         }
         
         list.appendChild(item);
@@ -334,8 +320,33 @@ while (list.firstChild) {
 function removeAnno(index){
 	var sure = window.confirm("Remove this annotation? (This will remove the database entry)");
 	if (sure == true){
+		if (annotationList[index].dbID == -1){
 		annotationList.splice(index,1);
 		updateList();
+		}
+		else //this requires some mysqli
+		{     
+		var page = "deleteanno.php?q="+annotationList[index].dbID;
+		if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+           var xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+          var  xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+		xmlhttp.onreadystatechange = function() {
+			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                // Request completed
+				
+				annotationList.splice(index,1);
+				updateList();	
+            
+        }
+}
+        xmlhttp.open("POST", page, true);
+        xmlhttp.send();
+			
+		}
 	}
 }
 
@@ -441,4 +452,25 @@ function Annotation() {
     var w = 0;
     var h = 0;
     var content = "";
+}
+
+/*
+================================================================================
+	Saving and Loading Annotation Content Function List.
+================================================================================
+*/
+function LoadAnnotations(list){
+	/*sqli function to pull annotations for this video ID*/
+	temp = new Annotation();
+	temp.username= list.user_name;
+	temp.dbID=list.annotation_id;
+	temp.start=list.annotation_start_time;
+	temp.end=list.annotation_end_time;
+	temp.x=list.annotation_x;
+	temp.y=list.annotation_y;
+	temp.w = list.annotation_box_width;
+	temp.h=list.annotation_box_height;
+	temp.content=list.annotation_text;
+	annotationList.push(temp);
+	updateList();
 }
