@@ -53,7 +53,6 @@ $usr = $_SESSION['username']?>
  }
 } 
 ?>
-
 <?php
 	//save the annotations in a list we'll pass to load the annotations
 	$result2 = mysqli_query($link,"SELECT * from `annotations` where video_id=$pid");
@@ -63,15 +62,16 @@ $usr = $_SESSION['username']?>
 		$templist = $row;
 	?>
 <script type='text/javascript'>
-    //now put it into the javascript
+    //now put it into the javascript	
     var list = <?php echo  json_encode($templist) ?>;
+
 	LoadAnnotations(list);
 </script>
 <?php
 	}
 
 ?>
-            
+	
 <script>
 function SaveAnnotations(){
 for (var i = 0; i < annotationList.length;i++){
@@ -83,6 +83,7 @@ $.ajax({
    success: function(data) {
         // Do something with data that came back. 
 		console.log('not ded');
+		sessionStorage.time=videoPlayer.currentTime;
 		location.reload();
    },
    error: function(data) {

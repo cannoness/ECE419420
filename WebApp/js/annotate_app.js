@@ -2,7 +2,9 @@
 ================================================================================
     Video Annotation Platform App JS
     
-    Class: ECE 435
+    Class: ECE 435, 419 and 420
+	
+	Collaboration between Software Engineering and Senior Design
 ================================================================================
 */
 
@@ -23,7 +25,7 @@ var canWidth,
       mouseX,
       mouseY,
       closeEnough = 5,
-      dragTL = dragBL = dragTR = dragBR = false;
+      dragTL = dragBL = dragTR = dragBR = false, time = 0, reloaded=false;
 
 /*
 ================================================================================
@@ -33,14 +35,20 @@ var canWidth,
 
 document.addEventListener("DOMContentLoaded", init, false);
 window.setInterval(redraw, 250); // Call redraw every second.
+window.onbeforeunload = function(){
+	sessionStorage.time = videoPlayer.currentTime;
+	return null;
+}
+window.onload = function() {
+    var time = sessionStorage.getItem(time);
+	}
 
 /*
     Initialize the app.
 */
 function init() {
-
     videoPlayer = document.getElementById("video-player");
-
+	videoPlayer.currentTime = sessionStorage.time;
     // Create drawing canvas.
     canvas = document.createElement("canvas");
     canvas.className = "canvases";
