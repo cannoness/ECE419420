@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:38313
--- Generation Time: Apr 19, 2016 at 07:09 AM
+-- Generation Time: Apr 19, 2016 at 05:04 AM
 -- Server version: 10.1.9-MariaDB
 -- PHP Version: 5.6.15
 
@@ -37,8 +37,8 @@ CREATE TABLE `annotations` (
   `annotation_box_width` int(11) NOT NULL,
   `annotation_box_height` int(11) NOT NULL,
   `annotation_text` varchar(64) NOT NULL,
-  `annotation_creation_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `annotation_modified_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `annotation_creation_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `annotation_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `users` (
   `user_password_reset_datetime` bigint(20) DEFAULT NULL COMMENT 'time and date of last password reset',
   `user_failed_logins` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'number of failed login attempts',
   `user_last_failed_login` int(10) DEFAULT NULL COMMENT 'timestamp for last failed login attempt',
-  `user_registration_datetime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_registration_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `user_registration_ip` varchar(39) NOT NULL DEFAULT '0.0.0.0',
   `user_last_login_ip` varchar(39) NOT NULL DEFAULT '0.0.0.0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -80,8 +80,7 @@ INSERT INTO `users` (`user_id`, `user_name`, `user_password_hash`, `user_email`,
 (3, 'BEEPBOOP', '098f6bcd4621d373cade4e832627b4f6', 'atestemail@fjdksl.com', 0, NULL, NULL, NULL, 0, NULL, '0000-00-00 00:00:00', '0.0.0.0', '0.0.0.0'),
 (4, 'SPHYNX!', '098f6bcd4621d373cade4e832627b4f6', 'astupidtest@fdjsk.com', 0, NULL, NULL, NULL, 0, NULL, '0000-00-00 00:00:00', '0.0.0.0', '0.0.0.0'),
 (7, 'atest', '098f6bcd4621d373cade4e832627b4f6', 'fjds@FJK.com', 0, NULL, NULL, NULL, 0, NULL, '0000-00-00 00:00:00', '0.0.0.0', '0.0.0.0'),
-(8, 'testuser', '098f6bcd4621d373cade4e832627b4f6', 'j@test.com', 0, NULL, NULL, NULL, 0, NULL, '0000-00-00 00:00:00', '0.0.0.0', '0.0.0.0'),
-(9, 'test2', '098f6bcd4621d373cade4e832627b4f6', 'atest@gmail.com', 0, NULL, NULL, NULL, 0, NULL, '0000-00-00 00:00:00', '0.0.0.0', '0.0.0.0');
+(8, 'testuser', '098f6bcd4621d373cade4e832627b4f6', 'j@test.com', 0, NULL, NULL, NULL, 0, NULL, '0000-00-00 00:00:00', '0.0.0.0', '0.0.0.0');
 
 -- --------------------------------------------------------
 
@@ -137,12 +136,12 @@ ALTER TABLE `videos`
 -- AUTO_INCREMENT for table `annotations`
 --
 ALTER TABLE `annotations`
-  MODIFY `annotation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `annotation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto_incrementing', AUTO_INCREMENT=18;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto_incrementing', AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `videos`
 --
