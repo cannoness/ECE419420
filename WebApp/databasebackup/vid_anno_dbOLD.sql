@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:38313
--- Generation Time: Apr 19, 2016 at 05:04 AM
+-- Generation Time: Mar 18, 2016 at 06:47 PM
 -- Server version: 10.1.9-MariaDB
 -- PHP Version: 5.6.15
 
@@ -30,12 +30,11 @@ CREATE TABLE `annotations` (
   `annotation_id` int(11) NOT NULL,
   `video_id` int(11) NOT NULL,
   `user_name` varchar(64) NOT NULL,
-  `annotation_start_time` float NOT NULL,
-  `annotation_end_time` float NOT NULL,
   `annotation_x` int(11) NOT NULL,
   `annotation_y` int(11) NOT NULL,
-  `annotation_box_width` int(11) NOT NULL,
-  `annotation_box_height` int(11) NOT NULL,
+  `annotation_start_time` time NOT NULL,
+  `annotation_end_time` time NOT NULL,
+  `annotation_box_size` int(11) NOT NULL,
   `annotation_text` varchar(64) NOT NULL,
   `annotation_creation_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `annotation_modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
@@ -45,10 +44,9 @@ CREATE TABLE `annotations` (
 -- Dumping data for table `annotations`
 --
 
-INSERT INTO `annotations` (`annotation_id`, `video_id`, `user_name`, `annotation_start_time`, `annotation_end_time`, `annotation_x`, `annotation_y`, `annotation_box_width`, `annotation_box_height`, `annotation_text`, `annotation_creation_time`, `annotation_modified_date`) VALUES
-(1, 12, 'SPHYNX!', 1, 2, 10, 30, 16, 27, 'k', '2016-04-18 00:31:07', '0000-00-00 00:00:00'),
-(2, 12, 'SPHYNX!', 1, 2, 10, 30, 16, 27, 'kd', '2016-04-18 00:31:07', '0000-00-00 00:00:00'),
-(9, 12, 'testuser', 0, 1.71539, 137, 23, 87, 87, 'cat', '2016-04-19 03:03:21', '0000-00-00 00:00:00');
+INSERT INTO `annotations` (`annotation_id`, `video_id`, `user_name`, `annotation_x`, `annotation_y`, `annotation_start_time`, `annotation_end_time`, `annotation_box_size`, `annotation_text`, `annotation_creation_time`, `annotation_modified_date`) VALUES
+(1, 8, '', 0, 0, '21:00:01', '08:00:02', 0, 'k', '2016-03-18 03:21:01', '0000-00-00 00:00:00'),
+(2, 2, '', 0, 0, '21:00:00', '08:00:00', 0, 'k', '2016-03-18 03:25:58', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -78,9 +76,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `user_name`, `user_password_hash`, `user_email`, `user_activated`, `user_activation_hash`, `user_password_reset_hash`, `user_password_reset_datetime`, `user_failed_logins`, `user_last_failed_login`, `user_registration_datetime`, `user_registration_ip`, `user_last_login_ip`) VALUES
 (3, 'BEEPBOOP', '098f6bcd4621d373cade4e832627b4f6', 'atestemail@fjdksl.com', 0, NULL, NULL, NULL, 0, NULL, '0000-00-00 00:00:00', '0.0.0.0', '0.0.0.0'),
-(4, 'SPHYNX!', '098f6bcd4621d373cade4e832627b4f6', 'astupidtest@fdjsk.com', 0, NULL, NULL, NULL, 0, NULL, '0000-00-00 00:00:00', '0.0.0.0', '0.0.0.0'),
-(7, 'atest', '098f6bcd4621d373cade4e832627b4f6', 'fjds@FJK.com', 0, NULL, NULL, NULL, 0, NULL, '0000-00-00 00:00:00', '0.0.0.0', '0.0.0.0'),
-(8, 'testuser', '098f6bcd4621d373cade4e832627b4f6', 'j@test.com', 0, NULL, NULL, NULL, 0, NULL, '0000-00-00 00:00:00', '0.0.0.0', '0.0.0.0');
+(4, 'SPHYNX!', '098f6bcd4621d373cade4e832627b4f6', 'astupidtest@fdjsk.com', 0, NULL, NULL, NULL, 0, NULL, '0000-00-00 00:00:00', '0.0.0.0', '0.0.0.0');
 
 -- --------------------------------------------------------
 
@@ -101,7 +97,9 @@ CREATE TABLE `videos` (
 --
 
 INSERT INTO `videos` (`video_data_id`, `src_video_name`, `ul_user_name`, `src_video_location`, `src_video_datetime`) VALUES
-(12, '043401347-soldier-petting-cat-his-pocket.mp4', 'testuser', 'videos/php604F.tmp', '2016-04-16 22:28:13');
+(2, 'vwxZc0QiqEWz9tFJ8CYsSw2.mp4', 'BEEPBOOP', 'videos/phpF560.tmp', '2016-03-17 13:58:38'),
+(8, 'SampleVideo_1080x720_30mb.mp4', 'BEEPBOOP', 'videos/php26F9.tmp', '2016-03-17 20:53:55'),
+(9, '043401347-soldier-petting-cat-his-pocket.mp4', 'BEEPBOOP', 'videos/php6F40.tmp', '2016-03-17 20:54:13');
 
 --
 -- Indexes for dumped tables
@@ -136,17 +134,17 @@ ALTER TABLE `videos`
 -- AUTO_INCREMENT for table `annotations`
 --
 ALTER TABLE `annotations`
-  MODIFY `annotation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `annotation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto_incrementing', AUTO_INCREMENT=9;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto_incrementing', AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `videos`
 --
 ALTER TABLE `videos`
-  MODIFY `video_data_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto_incrementing', AUTO_INCREMENT=13;
+  MODIFY `video_data_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto_incrementing', AUTO_INCREMENT=10;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

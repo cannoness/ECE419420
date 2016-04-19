@@ -4,7 +4,8 @@
 
    <noscript>This site just doesn't work, period, without JavaScript</noscript>
 
-<?php include("auth.php"); //include auth.php file on all secure pages ?>
+<?php include("auth.php"); //include auth.php file on all secure pages 
+$usr = $_SESSION['username']?>
 
     <!--<script>
        // var audioSource = context.createMediaElementSource(document.getElementById("video-player"));
@@ -33,7 +34,10 @@
     FROM `videos`       
     WHERE video_data_id = $pid       
   ");
-?>
+?><script type="text/javascript">
+	 user = <?php echo json_encode($_SESSION['username'])?>;
+	
+</script>	
         <article>
 			
             <section class="experiment" style="text-align: center;">
@@ -67,9 +71,28 @@
 	}
 
 ?>
-
+            
+<script>
+function SaveAnnotations(){
+for (var i = 0; i < annotationList.length;i++){
+	if (annotationList[i].dbID===-1){
+$.ajax({
+   url: 'saveannot.php?pid='+<?=$pid?>,
+   type: 'post',
+   data: {"points" : JSON.stringify(annotationList[i])},
+   success: function(data) {
+        // Do something with data that came back. 
+		console.log('not ded');
+   },
+   error: function(data) {
+	   console.log('ded');
+   }
+});
+	}else continue;
+}
+		}
 	
-                
+</script>
 
      
 <!--				<div>
@@ -88,13 +111,17 @@
 					<p> Start time: <input type="text" id="start-time"> End Time: <input type="text" id="end-time"></p>
                 </form>
             </div>
-        </div>
+		</div>
 
         <!-- Annotation list -->
         <div class="annotation-list" id="annotation-list">
             <!-- Generated on-demand by JS -->
+		
         </div>
-				</section>
+		<div class="save-annots" id="save-annots">
+			<button type='button' name="pid"  onclick="SaveAnnotations()"> send</button>
+		</div>
+		</section>
 			
             <script>
                 var channel = location.href.replace( /\/|:|#|%|\.|\[|\]/g , '');
@@ -124,8 +151,7 @@
                     streamer.stream(this.files[0]);
                 };
             </script>
-            
+		 
         </article>
-
 
 <?php include_once "common/sidebar.php"; ?>

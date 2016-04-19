@@ -99,14 +99,26 @@ ul {
 
 .annotation-list {
 	position: absolute;
-	right:-51%;
+	right:5px;
 	top: 25%;
-    width: inherit;
+    width: 24%;
     max-height: 30em;
     text-align: left;
     padding: inherit;
     margin: inherit;
-    overflow-y: scroll;
+     overflow-y: scroll;
+}
+
+.save-annots {
+	position: absolute;
+	right:5px;
+	bottom: 5%;
+    width: 24%;
+    max-height: 30em;
+    text-align: center;
+    padding: inherit;
+    margin: inherit;
+    overflow-y: hidden;
 }
 
 
@@ -144,6 +156,11 @@ width: 100%;
 text-align: center;
 }
 
+#save
+	{
+	height:4em;
+	width:15em;
+}
 
 /*
     RESET

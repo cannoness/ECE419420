@@ -13,12 +13,12 @@
 */
 var annotationList = [];
 var videoPlayer = null;
+var user = "";
 var canvas = null;
 var currentAnnotation = null;
 var canHeight;
 var canWidth, 
 	  ctx = null,
-     
       drag = false,
       mouseX,
       mouseY,
@@ -52,10 +52,11 @@ function init() {
 	
 	canWidth = canvas.width;
 	canHeight = canvas.height;
-     canvas.addEventListener('mousedown', mouseDown, false);
-      canvas.addEventListener('mouseup', mouseUp, false);
-      canvas.addEventListener('mousemove', mouseMove, false);
-	  ctx = canvas.getContext('2d');
+    canvas.addEventListener('mousedown', mouseDown, false);
+    canvas.addEventListener('mouseup', mouseUp, false);
+    canvas.addEventListener('mousemove', mouseMove, false);
+	ctx = canvas.getContext('2d');
+	
 }
 
 /*
@@ -162,6 +163,7 @@ function finalizeAnnotation() {
     currentAnnotation.content = contentField.value;
     currentAnnotation.end = videoPlayer.currentTime;
 	currentAnnotation.dbID= -1;
+	currentAnnotation.username=user;
     if (currentAnnotation.content == ""
         || currentAnnotation.end - currentAnnotation.start <= 0) {
         return;
@@ -240,31 +242,31 @@ function drawSquare(x, y, radius) {
 
     function mouseMove(e) {
 		if (currentAnnotation!=null){
-		pos = getPosition(canvas);
-      mouseX = e.pageX - pos.x;
-      mouseY = e.pageY - pos.y;
-	  
-	mouseX *= canvas.width/canvas.offsetWidth;
- 	mouseY *= canvas.height/canvas.offsetHeight;
-      if (dragTL) {
-        currentAnnotation.w += currentAnnotation.x - mouseX;
-        currentAnnotation.h += currentAnnotation.y - mouseY;
-        currentAnnotation.x = mouseX;
-        currentAnnotation.y = mouseY;
-      } else if (dragTR) {
-        currentAnnotation.w = Math.abs(currentAnnotation.x - mouseX);
-        currentAnnotation.h += currentAnnotation.y - mouseY;
-        currentAnnotation.y = mouseY;
-      } else if (dragBL) {
-        currentAnnotation.w += currentAnnotation.x - mouseX;
-        currentAnnotation.h = Math.abs(currentAnnotation.y - mouseY);
-        currentAnnotation.x = mouseX;
-      } else if (dragBR) {
-        currentAnnotation.w = Math.abs(currentAnnotation.x - mouseX);
-        currentAnnotation.h = Math.abs(currentAnnotation.y - mouseY);
-      }
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      redraw();
+			pos = getPosition(canvas);
+			mouseX = e.pageX - pos.x;
+			mouseY = e.pageY - pos.y;
+			  
+			mouseX *= canvas.width/canvas.offsetWidth;
+			mouseY *= canvas.height/canvas.offsetHeight;
+		  if (dragTL) {
+			currentAnnotation.w += currentAnnotation.x - mouseX;
+			currentAnnotation.h += currentAnnotation.y - mouseY;
+			currentAnnotation.x = mouseX;
+			currentAnnotation.y = mouseY;
+		  } else if (dragTR) {
+			currentAnnotation.w = Math.abs(currentAnnotation.x - mouseX);
+			currentAnnotation.h += currentAnnotation.y - mouseY;
+			currentAnnotation.y = mouseY;
+		  } else if (dragBL) {
+			currentAnnotation.w += currentAnnotation.x - mouseX;
+			currentAnnotation.h = Math.abs(currentAnnotation.y - mouseY);
+			currentAnnotation.x = mouseX;
+		  } else if (dragBR) {
+			currentAnnotation.w = Math.abs(currentAnnotation.x - mouseX);
+			currentAnnotation.h = Math.abs(currentAnnotation.y - mouseY);
+		  }
+		  ctx.clearRect(0, 0, canvas.width, canvas.height);
+		  redraw();
 		}
     }
 
@@ -277,7 +279,7 @@ function updateList() {
     contentList.innerHTML = "";
     
     var list = document.createElement('ul');
-while (list.firstChild) {
+	while (list.firstChild) {
 		list.removeChild(list.firstChild);
 	}
     for (var i = 0; i < annotationList.length; i++) {
@@ -324,25 +326,24 @@ function removeAnno(index){
 		annotationList.splice(index,1);
 		updateList();
 		}
-		else //this requires some mysqli
+	else //this requires some mysqli
 		{     
 		var page = "deleteanno.php?q="+annotationList[index].dbID;
 		if (window.XMLHttpRequest) {
             // code for IE7+, Firefox, Chrome, Opera, Safari
            var xmlhttp = new XMLHttpRequest();
-        } else {
+        } 
+		else {
             // code for IE6, IE5
           var  xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
 		xmlhttp.onreadystatechange = function() {
 			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-                // Request completed
-				
+				// Request completed
 				annotationList.splice(index,1);
 				updateList();	
-            
-        }
-}
+			}
+		}
         xmlhttp.open("POST", page, true);
         xmlhttp.send();
 			
@@ -353,7 +354,7 @@ function removeAnno(index){
 /*
 	Edit an existing annotation
 */
-function editAnno(index){
+function editAnno(index){ //this needs some adjustments still
 	currentAnnotation = annotationList[index];
 	showInputField();
 }
@@ -363,6 +364,7 @@ function editAnno(index){
 */
 function showInputField() {
     var inputArea = document.getElementById("input-area");
+	document.getElementById("input-area").value = "";
     inputArea.style.display = "block";
 }
 
@@ -437,6 +439,7 @@ function setCookie(key, value, exdays) {
     setCookie(key, "", 0);
 }
 */
+
 /*
 ================================================================================
     Annotation class.
