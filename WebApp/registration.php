@@ -17,8 +17,15 @@
  $result = mysqli_query($link,$query);
  if($result){
  echo "<div class='form'><h3>You are registered successfully.</h3><br/>Click here to <a href='login.php'>Login</a></div>";
+ 
  }
- }else{
+ else{
+	  echo "<div class='form'><h3>There was an error with your registration.</h3><br/>Click here to <a href='registration.php'>register</a></div>";
+ 
+		throw new Exception(mysqli_error($link)."[ $result]");
+ }}
+ else{
+	 
 ?>
 <div class="form">
 <h1>Registration</h1>

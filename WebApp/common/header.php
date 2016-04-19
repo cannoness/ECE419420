@@ -30,7 +30,7 @@ if(isset($_SESSION["username"])){
 }
 else{
 ?>
- <p><a href="index.php" class="button">Home</a> &nbsp; <a class="button" href="login.php">Log in</a> &nbsp; <a class="button" href="signup.php">Sign up</a></p>
+ <p><a href="index.php" class="button">Home</a> &nbsp; <a class="button" href="login.php">Log in</a> &nbsp; <a class="button" href="registration.php">Sign up</a></p>
 
 <?php
 }
