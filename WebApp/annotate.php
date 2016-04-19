@@ -83,6 +83,7 @@ $.ajax({
    success: function(data) {
         // Do something with data that came back. 
 		console.log('not ded');
+		location.reload();
    },
    error: function(data) {
 	   console.log('ded');
