@@ -16,16 +16,19 @@
 var annotationList = [];
 var videoPlayer = null;
 var user = "";
+var videoURL = "";
 var canvas = null;
 var currentAnnotation = null;
 var canHeight;
 var canWidth, 
 	  ctx = null,
       drag = false,
+	  editting = false,
+	  list = [],
       mouseX,
       mouseY,
       closeEnough = 5,
-      dragTL = dragBL = dragTR = dragBR = false, time = 0, reloaded=false;
+      dragTL = dragBL = dragTR = dragBR = false, time = 0, reloaded=false, playingSeg=false;
 
 /*
 ================================================================================
@@ -153,6 +156,7 @@ function startAnnotation(x, y) {
         currentAnnotation.x = mouseX;
         currentAnnotation.y = mouseY;
 		currentAnnotation.w = 1;
+		currentAnnotation.h = 1;
         dragBR = true;
       }
 
@@ -168,7 +172,8 @@ function finalizeAnnotation() {
         return;
     }
     var contentField = document.getElementById("content-text");
-    currentAnnotation.content = contentField.value;
+    if(currentAnnotation.dbID == null){
+	currentAnnotation.content = contentField.value;
     currentAnnotation.end = videoPlayer.currentTime;
 	currentAnnotation.dbID= -1;
 	currentAnnotation.username=user;
@@ -176,8 +181,24 @@ function finalizeAnnotation() {
         || currentAnnotation.end - currentAnnotation.start <= 0) {
         return;
     }
-
+	
     annotationList.push(currentAnnotation);
+	}
+	else {//find in the list and update
+		if (editting = true){
+		currentAnnotation.content = contentField.value;
+		for (var i = 0; i<annotationList.length; i++){
+			if (annotationList[i].dbID == currentAnnotation.dbID){
+					//update its stuff instead
+					annotationList[i] = currentAnnotation;
+				//make sure we mark it somehow so we know it changed in the db
+					annotationList[i].changed = true;
+				}
+				
+			}
+		
+	}}
+	editting = false;
     annotationList.sort(compareAnnotations);
     currentAnnotation = null;
     hideInputField();
@@ -189,6 +210,7 @@ function finalizeAnnotation() {
 function discardAnnotation() {
     currentAnnotation = null;
     hideInputField();
+	editting = false;
     redraw();
 }
 
@@ -212,8 +234,12 @@ function drawAnnotation(ann, ctx) {
 */
 function redraw() {
 
-    var currentTime = videoPlayer.currentTime;
-	document.getElementById("end-time").value = currentTime;
+    var currentTime = videoPlayer.currentTime;if (editting == false){
+	document.getElementById("end-time").value = currentTime; //change this if editting so it doesn't get weird.
+	
+		
+	}
+	
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (currentAnnotation) {
@@ -226,20 +252,21 @@ function redraw() {
             drawAnnotation(ann, ctx);
         }
     }
-
     updateList();
 }
+
 function drawSquare(x, y, radius) {
       ctx.fillStyle = "#FF0000";
       ctx.fillRect(x - radius / 2, y - radius / 2, radius, radius);
     }
 
     function drawHandles() {
-      drawSquare(currentAnnotation.x, currentAnnotation.y, closeEnough);
+	  drawSquare(currentAnnotation.x, currentAnnotation.y, closeEnough);
       drawSquare(currentAnnotation.x + currentAnnotation.w, currentAnnotation.y, closeEnough);
       drawSquare(currentAnnotation.x + currentAnnotation.w, currentAnnotation.y + currentAnnotation.h, closeEnough);
       drawSquare(currentAnnotation.x, currentAnnotation.y + currentAnnotation.h, closeEnough);
     }
+	
     function checkCloseEnough(p1, p2) {
       return Math.abs(p1 - p2) < closeEnough;
     }
@@ -293,8 +320,13 @@ function updateList() {
     for (var i = 0; i < annotationList.length; i++) {
         var item = document.createElement('li');
         var current = annotationList[i];
-        var contentString = "   [" + current.start + "-" + current.end + "] "
-                            + current.content + " (" + current.username + ")";
+		var a = document.createElement('a');
+		var linkText = document.createTextNode(current.content);
+		a.appendChild(linkText);
+		a.title = "anno";
+		a.href = "javascript:playSegment("+current.start+","+current.end+")";
+        var contentString = "   [" + current.start + "-" + current.end + "] ";
+                            var userString= " (" + current.username + ")";
 		var btn = document.createElement("BUTTON");        // Create a <button> element
 		var t = document.createTextNode("X");       // Create a text node
 		btn.setAttribute("onClick", 'removeAnno('+i+')');
@@ -306,6 +338,8 @@ function updateList() {
 		ebtn.appendChild(et);                                // Append the text to <button>
 		item.appendChild(ebtn);      
 		item.appendChild(document.createTextNode(contentString));
+		item.appendChild(a);
+		item.appendChild(document.createTextNode(userString));
 		
         if (currentTime >= current.start && currentTime <= current.end) {
 			if(current.dbID == -1){
@@ -364,7 +398,12 @@ function removeAnno(index){
 */
 function editAnno(index){ //this needs some adjustments still
 	currentAnnotation = annotationList[index];
+	videoPlayer.currentTime = currentAnnotation.start;
+	document.getElementById("content-text").value = currentAnnotation.content;
+	document.getElementById("start-time").value = currentAnnotation.start;
+	document.getElementById("end-time").value = currentAnnotation.end;
 	showInputField();
+	editting=true;
 }
 
 /*
@@ -376,11 +415,33 @@ function showInputField() {
     inputArea.style.display = "block";
 }
 
+function startbut() {
+	document.getElementById("start-time").value = videoPlayer.currentTime;
+	currentAnnotation.start = videoPlayer.currentTime;
+}
+
+function endbut() {
+	document.getElementById("end-time").value =videoPlayer.currentTime;
+	currentAnnotation.end = videoPlayer.currentTime;
+}
+
+function playSegment(start, end){	
+	videoPlayer.pause();
+	var source = videoPlayer.src;
+	videoPlayer.src = videoURL+"#t="+start+","+end;
+	console.log(videoURL);
+	videoPlayer.play();
+	playingSeg = true;
+}
+
 /*
     Hide input field.
 */
 function hideInputField() {
     var inputArea = document.getElementById("input-area");
+	document.getElementById("start-time").value = "";
+	document.getElementById("end-time").value = "";
+	document.getElementById("content-text").value = "";
     inputArea.style.display = "none";
 }
 
@@ -463,6 +524,7 @@ function Annotation() {
     var w = 0;
     var h = 0;
     var content = "";
+	var changed = false;
 }
 
 /*
@@ -474,14 +536,13 @@ function LoadAnnotations(list){
 	/*sqli function to pull annotations for this video ID*/
 	temp = new Annotation();
 	temp.username= list.user_name;
-	temp.dbID=list.annotation_id;
+	temp.dbID=parseInt(list.annotation_id);
 	temp.start=list.annotation_start_time;
 	temp.end=list.annotation_end_time;
-	temp.x=list.annotation_x;
-	temp.y=list.annotation_y;
-	temp.w = list.annotation_box_width;
-	temp.h=list.annotation_box_height;
+	temp.x= parseInt(list.annotation_x);
+	temp.y= parseInt(list.annotation_y);
+	temp.w = parseInt(list.annotation_box_width);
+	temp.h= parseInt(list.annotation_box_height);
 	temp.content=list.annotation_text;
 	annotationList.push(temp);
-	updateList();
 }

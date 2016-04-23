@@ -20,15 +20,18 @@
 	
 	<?php
 	if(!empty($_POST['search'])){
-	$sql = "SELECT * FROM annotations WHERE annotation_text LIKE '%".$_POST['search']."%'";
+		$user = $_SESSION['username'];
+	$sql = "SELECT * FROM annotations WHERE annotation_text LIKE '%".$_POST['search']."%' and user_name='$user'";
 	// query $sql
 	$result = mysqli_query($link,$sql);
+	
 
 	if ($result->num_rows > 0) 
 	{
     	// output data of each row
     	while($row = $result->fetch_assoc()) 
     	{
+
         	echo "<br> Annotation Text: ". $row["annotation_text"]. " - Start Time: ". $row["annotation_start_time"]. " , End Time:" . $row["annotation_end_time"] . " in video <br>";
      	}
 	}

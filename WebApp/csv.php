@@ -1,6 +1,6 @@
 <?php 
  require('/common/DBConnection/connection.php');
-	$sql = "SELECT * FROM annotations WHERE annotation_text LIKE '%".$_POST['sql']."%'";
+	$sql = "SELECT * FROM annotations WHERE annotation_text LIKE '%".$_POST['sql']."%' and user_name='%".$_SESSION['username']."%'";
 	$result = mysqli_query($link,$sql);
  
 	if (!$result) die('Couldn\'t fetch records');  

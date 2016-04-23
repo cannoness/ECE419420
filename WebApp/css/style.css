@@ -109,6 +109,31 @@ ul {
      overflow-y: scroll;
 }
 
+.index{
+	margin: 0 auto;
+}
+
+.tdl{
+	height:100px;
+	width:350px;
+	text-align: left;
+	vertical-align:top;
+}
+
+.tablehead{
+	height:45px;
+	width:350px;
+	text-align: left;
+	vertical-align:top;
+}
+
+.tdr{
+	height:100px;
+	width:350px;
+	text-align: right;
+	vertical-align:top;
+}
+
 .save-annots {
 	position: absolute;
 	right:5px;

@@ -49,10 +49,15 @@ $usr = $_SESSION['username']?>
       <video id='video-player' controls>  
       <source src=$cvalue type='video/mp4'>      
          />   
-      </video> </div>";       
+      </video> </div>"; ?><script>
+ videoURL= "<?=$cvalue?>";
+ console.log(videoURL);</script>  <?php
  }
+ 
 } 
 ?>
+
+
 <?php
 	//save the annotations in a list we'll pass to load the annotations
 	$result2 = mysqli_query($link,"SELECT * from `annotations` where video_id=$pid");
@@ -61,11 +66,11 @@ $usr = $_SESSION['username']?>
 	while($row=mysqli_fetch_assoc($result2)){ 
 		$templist = $row;
 	?>
-<script type='text/javascript'>
+<script>
     //now put it into the javascript	
-    var list = <?php echo  json_encode($templist) ?>;
+    list.push(<?php echo  json_encode($templist) ?>);
 
-	LoadAnnotations(list);
+	
 </script>
 <?php
 	}
@@ -73,29 +78,53 @@ $usr = $_SESSION['username']?>
 ?>
 	
 <script>
+for (var i=0; i < list.length;i++)
+	<?php if ($_SESSION['admin']==false){?> //if we're admin we get to see everyone's annotations
+	if (list[i].user_name == user) <?php }?> //if we're not we only see our own
+	LoadAnnotations(list[i]);
 function SaveAnnotations(){
 for (var i = 0; i < annotationList.length;i++){
 	if (annotationList[i].dbID===-1){
-$.ajax({
-   url: 'saveannot.php?pid='+<?=$pid?>,
-   type: 'post',
-   data: {"points" : JSON.stringify(annotationList[i])},
-   success: function(data) {
-        // Do something with data that came back. 
-		console.log('not ded');
-		sessionStorage.time=videoPlayer.currentTime;
-		location.reload();
-   },
-   error: function(data) {
-	   console.log('ded');
-   }
-});
-	}else continue;
+		$.ajax({
+		   url: 'saveannot.php?pid='+<?=$pid?>,
+		   type: 'post',
+		   data: {"points" : JSON.stringify(annotationList[i])},
+		   success: function(data) {
+				// Do something with data that came back. 
+				console.log('not ded');
+				sessionStorage.time=videoPlayer.currentTime;
+				location.reload();
+		   },
+		   error: function(data) {
+			   console.log('ded');
+		   }
+		});
+	}
+	else if (annotationList[i].changed ==true){
+		$.ajax({
+		   url: 'saveupdateannot.php?pid='+<?=$pid?>, //different php file so we can just modify the fields.
+		   type: 'post',
+		   data: {"points" : JSON.stringify(annotationList[i])},
+		   success: function(data) {
+				// Do something with data that came back. 
+				console.log('not ded');
+				sessionStorage.time=videoPlayer.currentTime;
+				location.reload();
+		   },
+		   error: function(data) {
+			   console.log('ded');
+		   }
+		});
+	}
+	else{
+		continue;}
+	}
 }
-		}
 	
 </script>
-
+<script>
+	document.getElementById('sidebar')
+	</script>
      
 <!--				<div>
                     <a href="phpE7B2.tmp" title="Download WebM file to stream as pre-recorded media" download="chrome.webm" target="_blank">Download WebM video</a>
@@ -109,8 +138,9 @@ $.ajax({
                 <form action="javascript:finalizeAnnotation();" style="display: inline;">
                     <input type="text" id="content-text">
                     <input type="submit" value="Finalize">
-                    <input type="button" onclick="discardAnnotation()" value="Discard">
-					<p> Start time: <input type="text" id="start-time"> End Time: <input type="text" id="end-time"></p>
+                    <input type="button" onclick="discardAnnotation()" value="Cancel">
+					<p> Start time: <input type="text" id="start-time"><input type="button" onclick="startbut()" name="start" value="start" id="start/finish"> 
+					End Time: <input type="text" id="end-time"><input type="button" name="end" onclick="endbut()" value="end" id="start/finish"> </p>
                 </form>
             </div>
 		</div>
@@ -120,8 +150,9 @@ $.ajax({
             <!-- Generated on-demand by JS -->
 		
         </div>
+		
 		<div class="save-annots" id="save-annots">
-			<button type='button' name="pid"  onclick="SaveAnnotations()"> send</button>
+			<button type='button' name="pid"  onclick="SaveAnnotations()"> Save Changes</button>
 		</div>
 		</section>
 			
