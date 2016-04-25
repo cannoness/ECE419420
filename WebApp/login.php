@@ -13,7 +13,7 @@
  $result = mysqli_query($link,$query) or die(mysql_error());
  $rows = mysqli_num_rows($result); 
  $check_allowed = mysqli_fetch_assoc($result);
-	 
+		
  if($rows==1 && $check_allowed['user_activated']==1){
 	 //check to make sure the account is activated
 	
@@ -37,19 +37,22 @@ WHERE
  }
  else if(!$check_allowed['user_activated']){echo "Your account is not activated, check for your activation email or contact an admin";}
  else{
- echo "<div class='form'><h3>Username/password is incorrect.</h3><br/>Click here to <a href='login.php'>Login</a></div>";
+ echo "<div class='login'><h3>Username/password is incorrect.</h3><br/>Click here to <a href='login.php'>Login</a></div>";
  }
  }else{
 ?>
-<div class="form">
+<div class="login">
 <h1>Log In</h1>
-<form action="" method="post" name="login">
-<input type="text" name="username" placeholder="Username" required />
-<input type="password" name="password" placeholder="Password" required />
-<input name="submit" type="submit" value="Login" />
-</form>
-<p>Not registered yet? <a href='registration.php'>Register Here</a></p>
-</div>
+<form action="" method="post" name="login"/><br><div class ="formholder">
+Username:<br/>
+<input type="text" name="username" placeholder="Username" required /><br/><br>
+Password:<br/>
+<input type="password" name="password" placeholder="Password" required /><br><br>
+<input name="submit" class="button" type="submit" value="Login" />
+</form><br/><br/>
+<sub>
+<p>Not registered yet? <a href='registration.php'>Register Here</a></sub></p>
+</div></div>
 <?php } ?>
 </body>
 </html>

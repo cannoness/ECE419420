@@ -13,13 +13,13 @@
     <meta  http-equiv="Content-Type" content="text/html;  charset=iso-8859-1">
     <title>Search Annotations</title>
   </head>
-  <p><body>
-    <h3>Search Details</h3>
-    <p>You  may search by annotation keyword</p>
+  <p><body><div class="search">
+    <h1>Search Details</h1><br/>
+    <p>You  may search by annotation keyword</p><br/>
     <form  method="post" action="search.php?go"  id="searchform">
       <input  type="text" name="name">
-      <input  type="submit" name="submit" value="Search">
-    </form>
+      <input  type="submit" name="submit" class="button"value="Search">
+    </form><br/><br/>
   </body>
 </html>
 </p>
@@ -27,16 +27,20 @@
   if(isset($_POST['submit'])){
   if(isset($_GET['go'])){
   $name=$_POST['name'];
-  
-  $sql="SELECT video_id FROM annotations WHERE annotation_text LIKE '%" . $name .  "%'";
+  $user = $_SESSION['username'];
+  $sql="SELECT video_id,annotation_start_time,annotation_end_time FROM annotations WHERE annotation_text LIKE '%" . $name .  "%' and user_name='$user'";
   //-run  the query against the mysql query function
   $result=mysqli_query($link,$sql);
   //-create  while loop and loop through result set
   while($row=mysqli_fetch_array($result)){
-          $ID  =$row['video_id'];
+    $ID  =$row['video_id'];
+		  
+	$sql2 = "select * from `videos` WHERE video_data_id ='$ID'";
+	$res2= mysqli_query($link, $sql2);
+	$t = mysqli_fetch_row($res2);
   //-display the result of the array
   echo "<ul>\n\n\n";
-  echo "<li>" . "<a  href=annotate.php?pid=$ID>". $ID ." </a></li>\n";
+  echo "<li>" . "<a  href=annotate.php?pid=$ID>". $t[1] ." at time ".$row['annotation_start_time']." ending at time " .$row['annotation_end_time']." </a></li>\n";
   echo "</ul>";
 	}
   }

@@ -6,8 +6,9 @@
 
 <?php include("auth.php"); //include auth.php file on all secure pages ?>
 <body>
-<div>
-<table>
+<div class="form">
+
+<table class="browse"><tr ><td class="top" colspan="4"><h2>Select a Video to Begin Annotation</h2></tr></td>
 <?php if(empty($pid)) {      
   $number_of_categories_in_row = 4;      
   $total_vids =0;
@@ -16,13 +17,14 @@
     SELECT      
       c.src_video_name,      
       c.src_video_location,  
+	  c.src_video_thumbnail_location,
 	  c.video_data_id
     FROM      
-      `videos` as c ");      
+      `videos` as c");      
   while ($row = mysqli_fetch_array($result)) {      
     $result_array[] =      
-      '<a href="annotate.php?pid=' . $row[2] . '">' .      
-      $row[0] . '</a>';
+      '<a href="annotate.php?pid=' . $row[3] . '"><img class="thumb" src='.$row[2].'><br/>' .      
+      $row[0] . '</a>&emsp;&emsp;';
 	$total_vids++;
   }      
   mysqli_free_result($result);   
@@ -40,7 +42,6 @@
       $result_final .= "&nbsp;<td colspan='" .      
         ($number_of_categories_in_row - $counter) . "'>&nbsp;</td>&nbsp;";   ?>   
       <br />       
-      //thumbs    
       <br /> <?php
    echo $result_final .= "</tr>";  
   }      

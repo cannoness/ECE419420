@@ -28,6 +28,7 @@ if(isset($_POST['upload'])){
  <h1> Step 2: Select a Thumbnail</h1>
  
 <video controls src='$uploadfile'></video>
+<input type="submit" value="submit">
 
 <?php include_once "common/sidebar.php"; ?>
 </body>

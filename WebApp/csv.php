@@ -1,9 +1,18 @@
 <?php 
  require('/common/DBConnection/connection.php');
-	$sql = "SELECT * FROM annotations WHERE annotation_text LIKE '%".$_POST['sql']."%' and user_name='%".$_SESSION['username']."%'";
+ 
+	$user = $_POST['sqluser'];
+	$like = $_POST['sql'];
+	$sql = "SELECT src_video_name,user_name,annotation_text,annotation_start_time,annotation_end_time,annotation_x,annotation_y,
+	annotation_box_width,annotation_box_height,annotation_creation_time,annotation_modified_date
+
+
+	FROM annotations inner join videos on videos.video_data_id=annotations.video_id 
+	where  annotations.annotation_text LIKE '%".$like."%'";
 	$result = mysqli_query($link,$sql);
  
-	if (!$result) die('Couldn\'t fetch records');  
+	if (!$result)
+	die('Couldn\'t fetch records'); 
 	$finfo = $result->fetch_fields();
 	$headers = array(); 
 

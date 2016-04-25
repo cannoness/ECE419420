@@ -6,9 +6,8 @@
 
 <?php include("auth.php"); //include auth.php file on all secure pages ?>
 
-<div class="form">
-<p>This is a secured page.</p>
-Hello <?php echo $_SESSION['username']?>!
+<div class="account">
+<h1><?php echo $_SESSION['username']?>'s User Control Panel</h1><br/>
 <?php 
 $email = "";
 $query = "select user_email from `users` where user_name='".$_SESSION['username']."'";
@@ -23,21 +22,25 @@ else
 </p>
 
 <form id="account" type="text">
-<p>Update Email Address</p>
-<input id="email-address" type ="text" value=<?=$email?>>
+Update Email Address<br/>
+&emsp;&emsp;<input id="email-address" type ="text" value=<?=$email?>><br/><br/>
 
 
 <p> Change Password</p>
 
-<input id="change-pass" type ="text" value="">
+&emsp;&emsp;<input id="change-pass" type ="text" value=""><br/><br/>
 
 <p> Confirm Password Change </p>
 
-<input id="confirm-pass" type ="text" value="">
+&emsp;&emsp;<input id="confirm-pass" type ="text" value=""><br/><br/>
 <p>
 
-<input value="submit" type = "submit">
-</form>
+<p> Disable Admin Emails </p>
+&emsp;&emsp; <input type="checkbox" name="emails" value="disable"/> Check to disable.<br/><br/>
+<a href='feedback.php'>Leave Feedback for Admins</a><br/><br/>
+
+<input value="submit" class="button" type = "submit">
+<br/><br/></form>
 </div>
 
 

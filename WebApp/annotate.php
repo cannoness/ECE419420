@@ -152,7 +152,7 @@ for (var i = 0; i < annotationList.length;i++){
         </div>
 		
 		<div class="save-annots" id="save-annots">
-			<button type='button' name="pid"  onclick="SaveAnnotations()"> Save Changes</button>
+			<button class='button' name="pid"  onclick="SaveAnnotations()"> Save Changes</button>
 		</div>
 		</section>
 			
